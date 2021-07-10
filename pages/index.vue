@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" md="10">
+    <v-col cols="12" md="9">
       <v-list-item>
         <v-list-item-icon class="mr-2 mr-md-10">
           <v-avatar :size="sizeAvatar">
@@ -8,21 +8,58 @@
           </v-avatar>
         </v-list-item-icon>
         <v-list-item-content class="ml-2 ml-md-10">
-          <p class="text-h6 text-md-h5">{{ wisataBook.name }}</p>
-          <v-list-item class="ml-0 pl-0">
-            <v-rating
-              v-model="rating"
-              class="ml-0 pl-0"
-              dense
-              readonly
-              :color="colorRating"
-              size="20"
-            ></v-rating>
-            <v-chip class="ma-2" color="accent" outlined label>
-              {{ wisataBook.catalog_data.category }}
-            </v-chip>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                <span
+                  class="text-h6 text-md-h5 mb-0 mt-0"
+                  style="font-family: 'Goole Sans'"
+                >
+                  {{ wisataBook.name }}
+                </span>
+              </v-list-item-title>
+              <v-list-item-subtitle class="d-flex">
+                <v-rating
+                  v-model="rating"
+                  class="ml-0 pl-0 mr-2"
+                  dense
+                  readonly
+                  :color="colorRating"
+                  size="20"
+                ></v-rating>
+                <v-chip small class="py-0" color="accent" outlined label>
+                  <span style="font-size: 12px">{{
+                    wisataBook.catalog_data.category
+                  }}</span>
+                </v-chip>
+              </v-list-item-subtitle>
+            </v-list-item-content>
           </v-list-item>
-          <p>{{ wisataBook.catalog_data.address }}</p>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                <p style="font-family: 'Roboto'; font-size: 15px">
+                  {{ wisataBook.catalog_data.address }}
+                </p>
+              </v-list-item-title>
+              <v-list-item-title>
+                <v-progress-circular
+                  :value="wisataBook.catalog_data.review_rating"
+                  :color="colorProgress"
+                >
+                  {{ wisataBook.catalog_data.review_rating }}
+                </v-progress-circular>
+                <span
+                  style="font-family: 'Roboto'; font-size: 15px"
+                  class="ml-2"
+                  >Excellent · 4,823 reviews</span
+                >
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <!-- <p style="font-family: 'Roboto'; font-size: 15px">
+            {{ wisataBook.catalog_data.address }}
+          </p>
           <v-list-item class="ml-0 pl-0">
             <v-progress-circular
               :value="wisataBook.catalog_data.review_rating"
@@ -30,63 +67,104 @@
             >
               {{ wisataBook.catalog_data.review_rating }}
             </v-progress-circular>
-            <span class="ml-2">Excellent · 4,823 reviews</span>
-          </v-list-item>
+            <span style="font-family: 'Roboto'; font-size: 15px" class="ml-2"
+              >Excellent · 4,823 reviews</span
+            >
+          </v-list-item> -->
         </v-list-item-content>
       </v-list-item>
-      <v-tabs centered color="accent">
-        <v-tab>
-          <v-icon> mdi-grid </v-icon>
-          <span> PHOTOS </span></v-tab
-        >
-      </v-tabs>
-      <v-slide-group v-model="selectedCaption" show-arrows mandatory>
+      <div :color="$vuetify.theme.dark ? '#121212' : 'white'">
+        <div v-if="$vuetify.breakpoint.name === 'xs'">
+          <v-tabs centered grow color="accent">
+            <v-tab> <v-icon class="mr-2"> mdi-grid </v-icon></v-tab>
+          </v-tabs>
+        </div>
+        <div v-else>
+          <v-tabs centered color="accent">
+            <v-tab>
+              <v-icon small class="mr-2"> mdi-grid </v-icon>
+              <span style="font-family: 'Roboto'; font-size: 12px">
+                PHOTOS
+              </span></v-tab
+            >
+          </v-tabs>
+        </div>
+      </div>
+      <v-slide-group
+        v-model="selectedCaption"
+        :show-arrows="$vuetify.breakpoint.name === 'sm' ? 'mobile' : 'desktop'"
+        mandatory
+      >
         <v-slide-item
           v-for="tag in tags"
           :key="tag"
           v-slot="{ active, toggle }"
         >
           <v-chip
-            :color="active ? 'blue lighten-5' : 'grey lighten-2'"
-            :text-color="active ? 'blue darken-2' : 'black'"
+            :color="
+              active && $vuetify.theme.dark
+                ? 'rgb(25,118,210,0.1)'
+                : active && !$vuetify.theme.dark
+                ? 'blue lighten-5'
+                : !active && $vuetify.theme.dark
+                ? 'grey darken-3'
+                : 'grey lighten-2'
+            "
+            :text-color="
+              (active && $vuetify.theme.dark) ||
+              (active && !$vuetify.theme.dark)
+                ? 'blue darken-2'
+                : !active && $vuetify.theme.dark
+                ? 'white'
+                : 'black'
+            "
             :outlined="active ? false : true"
             class="ma-2"
+            :style="active ? 'font-weight: bold' : 'font-weight: normal'"
             @click="toggle"
           >
             {{ tag }}
           </v-chip>
         </v-slide-item>
       </v-slide-group>
-      <v-row>
-        <v-col
-          v-for="picture in showPicture"
-          :key="picture.size_sm"
-          :color="$vuetify.theme.dark ? '#121212' : 'white'"
-          class="d-flex child-flex"
-          cols="4"
-        >
-          <div style="cursor: pointer" @click="handleShowImage()">
-            <v-img aspect-ratio="1" :src="picture.size_lg"></v-img>
-          </div>
-        </v-col>
-      </v-row>
-      <v-dialog v-if="isPopup" v-model="isPopup">
-        <v-carousel hide-delimiters>
-          <v-carousel-item
+      <v-lazy transition="scroll-y-reverse-transition">
+        <v-row>
+          <v-col
             v-for="(picture, i) in showPicture"
-            :key="i"
-            :src="picture.size_lg"
-          ></v-carousel-item>
-        </v-carousel>
+            :key="picture.size_sm"
+            :color="$vuetify.theme.dark ? '#121212' : 'white'"
+            class="d-flex child-flex"
+            cols="4"
+          >
+            <div
+              v-if="$vuetify.breakpoint.name === 'sm'"
+              style="cursor: pointer"
+              @click="handleShowImage(i)"
+            >
+              <v-img aspect-ratio="1" :src="picture.size_sm"></v-img>
+            </div>
+            <div v-else style="cursor: pointer" @click="handleShowImage(i)">
+              <v-img aspect-ratio="1" :src="picture.size_lg"></v-img>
+            </div>
+          </v-col>
+        </v-row>
+      </v-lazy>
+      <v-dialog v-if="isPopup" v-model="isPopup">
+        <v-card max-width="900" class="mx-auto">
+          <v-carousel v-model="model" hide-delimiters>
+            <v-carousel-item
+              v-for="(picture, i) in showPicture"
+              :key="i"
+              :src="picture.size_lg"
+            ></v-carousel-item>
+          </v-carousel>
+        </v-card>
       </v-dialog>
     </v-col>
   </v-row>
 </template>
 
 <script>
-// import Logo from '~/components/Logo.vue'
-// import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
 export default {
   props: {
     items: { type: Array, default: () => [] },
@@ -102,6 +180,7 @@ export default {
     colorProgress: '#8E24AA',
     selectedCaption: null,
     isPopup: false,
+    model: 0,
     gambar: [
       {
         src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
@@ -233,9 +312,19 @@ export default {
     showImage() {
       this.isPopup = true
     },
-    handleShowImage() {
+    handleShowImage(i) {
+      this.model = i
       this.showImage()
     },
   },
 }
 </script>
+
+<style>
+* {
+  font-family: 'Google Sans';
+}
+.title {
+  font-family: 'Nunito Sans';
+}
+</style>

@@ -21,9 +21,15 @@
         <nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+    <v-footer>
+      <v-col>
+        <span>&copy;Wisatabook · </span>
+        <span style="font-size: 14px"> Terms &amp; Condition</span>
+      </v-col>
     </v-footer>
+    <!-- <v-footer :absolute="!fixed" app>
+      <span>&copy; {{ new Date().getFullYear() }}</span>
+    </v-footer> -->
   </v-app>
 </template>
 

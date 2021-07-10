@@ -1,18 +1,3 @@
-// export const state = () => {
-//   return {
-//     isInit: false,
-//   }
-// }
-
-// export const mutations = {
-//   isInitTrue(state) {
-//     state.isInit = true
-//   },
-//   isInitFalse(state) {
-//     state.isInit = false
-//   },
-// }
-
 export const actions = {
   useAPI(context, { method, url, data, key }) {
     return new Promise((resolve, reject) => {
