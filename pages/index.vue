@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" md="9">
-      <v-list-item>
+    <v-col cols="12" md="9" class="pa-0">
+      <v-list-item class="mt-8">
         <v-list-item-icon class="mr-2 mr-md-10">
           <v-avatar :size="sizeAvatar">
             <v-img :src="wisataBook.catalog_data.hero_image" fluid></v-img>
@@ -12,8 +12,12 @@
             <v-list-item-content>
               <v-list-item-title>
                 <span
-                  class="text-h6 text-md-h5 mb-0 mt-0"
-                  style="font-family: 'Goole Sans'"
+                  class="mb-0 mt-0"
+                  :style="
+                    $vuetify.breakpoint.name === 'xs'
+                      ? 'font-size: 16px; font-weight: 500'
+                      : 'font-size: 20px; font-weight: 500'
+                  "
                 >
                   {{ wisataBook.name }}
                 </span>
@@ -35,65 +39,67 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>
-                <p style="font-family: 'Roboto'; font-size: 15px">
-                  {{ wisataBook.catalog_data.address }}
-                </p>
-              </v-list-item-title>
-              <v-list-item-title>
-                <v-progress-circular
-                  :value="wisataBook.catalog_data.review_rating"
-                  :color="colorProgress"
-                >
-                  {{ wisataBook.catalog_data.review_rating }}
-                </v-progress-circular>
-                <span
-                  style="font-family: 'Roboto'; font-size: 15px"
-                  class="ml-2"
-                  >Excellent · 4,823 reviews</span
-                >
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <!-- <p style="font-family: 'Roboto'; font-size: 15px">
+          <p
+            v-if="$vuetify.breakpoint.name === 'xs'"
+            class="ml-4"
+            style="font-family: 'Roboto'; font-size: 14px"
+          >
             {{ wisataBook.catalog_data.address }}
           </p>
-          <v-list-item class="ml-0 pl-0">
+          <p v-else class="ml-4" style="font-family: 'Roboto'; font-size: 15px">
+            {{ wisataBook.catalog_data.address }}
+          </p>
+          <v-list-item class="ml-4 pl-0">
             <v-progress-circular
               :value="wisataBook.catalog_data.review_rating"
               :color="colorProgress"
             >
-              {{ wisataBook.catalog_data.review_rating }}
+              <span style="font-family: 'Roboto'">{{
+                wisataBook.catalog_data.review_rating
+              }}</span>
             </v-progress-circular>
-            <span style="font-family: 'Roboto'; font-size: 15px" class="ml-2"
+            <span
+              v-if="$vuetify.breakpoint.name === 'xs'"
+              style="font-family: 'Roboto'; font-size: 14px"
+              class="ml-2"
               >Excellent · 4,823 reviews</span
             >
-          </v-list-item> -->
+            <span
+              v-else
+              style="font-family: 'Roboto'; font-size: 15px"
+              class="ml-2"
+              >Excellent · 4,823 reviews</span
+            >
+          </v-list-item>
         </v-list-item-content>
       </v-list-item>
-      <div :color="$vuetify.theme.dark ? '#121212' : 'white'">
+      <div :color="$vuetify.theme.dark ? '#121212' : 'white'" class="mt-8">
         <div v-if="$vuetify.breakpoint.name === 'xs'">
-          <v-tabs centered grow color="accent">
-            <v-tab> <v-icon class="mr-2"> mdi-grid </v-icon></v-tab>
-          </v-tabs>
+          <v-scroll-x-transition>
+            <v-tabs centered grow color="accent">
+              <v-tab> <v-icon class="mr-2"> mdi-grid </v-icon></v-tab>
+            </v-tabs>
+          </v-scroll-x-transition>
         </div>
         <div v-else>
-          <v-tabs centered color="accent">
-            <v-tab>
-              <v-icon small class="mr-2"> mdi-grid </v-icon>
-              <span style="font-family: 'Roboto'; font-size: 12px">
-                PHOTOS
-              </span></v-tab
-            >
-          </v-tabs>
+          <v-divider></v-divider>
+          <v-scroll-x-reverse-transition>
+            <v-tabs centered color="accent" style="transform: rotate(180deg)">
+              <v-tab style="transform: rotate(180deg)">
+                <v-icon small class="mr-2"> mdi-grid </v-icon>
+                <span style="font-family: 'Roboto'; font-size: 12px">
+                  PHOTOS
+                </span></v-tab
+              >
+            </v-tabs>
+          </v-scroll-x-reverse-transition>
         </div>
       </div>
       <v-slide-group
         v-model="selectedCaption"
         :show-arrows="$vuetify.breakpoint.name === 'sm' ? 'mobile' : 'desktop'"
         mandatory
+        class="pb-2 pb-md-4"
       >
         <v-slide-item
           v-for="tag in tags"
@@ -128,12 +134,16 @@
         </v-slide-item>
       </v-slide-group>
       <v-lazy transition="scroll-y-reverse-transition">
-        <v-row>
+        <v-row :no-gutters="$vuetify.breakpoint.name === 'xs' ? true : false">
           <v-col
             v-for="(picture, i) in showPicture"
             :key="picture.size_sm"
             :color="$vuetify.theme.dark ? '#121212' : 'white'"
-            class="d-flex child-flex"
+            :class="
+              $vuetify.breakpoint.name === 'xs'
+                ? 'd-flex child-flex pa-1'
+                : 'd-flex child-flex'
+            "
             cols="4"
           >
             <div
@@ -181,20 +191,6 @@ export default {
     selectedCaption: null,
     isPopup: false,
     model: 0,
-    gambar: [
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-      },
-    ],
     tags: [
       'All',
       'Featured Image',
@@ -323,8 +319,5 @@ export default {
 <style>
 * {
   font-family: 'Google Sans';
-}
-.title {
-  font-family: 'Nunito Sans';
 }
 </style>

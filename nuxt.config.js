@@ -7,8 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - wisatabook-fe',
-    title: 'wisatabook-fe',
+    title: 'The Westin Jakarta · Secret Deals · Wisatabook',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -19,10 +18,6 @@ export default {
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=Google+Sans:100,300,400,500,700,900,100i,300i,400i,500i,700i,900i',
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Nunito|Nunito+Sans:300,500,600,700,900|Rubik:300,500,700',
       },
     ],
   },
