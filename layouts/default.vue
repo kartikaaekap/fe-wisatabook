@@ -4,16 +4,19 @@
       :color="$vuetify.theme.dark ? '#121212' : 'white'"
       app
       elevate-on-scroll
-      class="mx-auto"
     >
-      <v-spacer></v-spacer>
-      <v-icon color="primary"> mdi-weather-night </v-icon>
-      <v-switch
-        v-model="$vuetify.theme.dark"
-        class="mt-5 ml-2"
-        inset
-        persistent-hint
-      ></v-switch>
+      <v-container class="py-0 fill-height">
+        <v-spacer></v-spacer>
+        <div class="mt-3 mt-md-4">
+          <v-switch
+            v-model="$vuetify.theme.dark"
+            inset
+            class="pl-2"
+            prepend-icon="mdi-weather-night"
+            persistent-hint
+          ></v-switch>
+        </div>
+      </v-container>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -22,25 +25,18 @@
     </v-main>
     <v-footer
       v-if="$vuetify.breakpoint.name !== 'xs'"
-      :color="$vuetify.theme.dark ? '#1E1E1E' : 'white'"
+      :color="$vuetify.theme.dark ? '#1E1E1E' : 'F5F5F5'"
       class="mt-5"
     >
-      <v-col>
-        <span>&copy;Wisatabook · </span>
-        <span style="font-size: 14px"> Terms &amp; Condition</span>
-      </v-col>
-    </v-footer>
-    <!-- <v-footer dark>
-      <v-row justify="center" align="center">
-        <v-col cols="12" md="9">
-          <span>&copy;Wisatabook · </span>
+      <v-container class="py-0 fill-height">
+        <v-col>
+          <span>© Wisatabook · </span>
           <span style="font-size: 14px"> Terms &amp; Condition</span>
         </v-col>
-      </v-row>
-    </v-footer> -->
-    <!-- <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer> -->
+      </v-container>
+    </v-footer>
+    <v-footer v-else :color="$vuetify.theme.dark ? '#1E1E1E' : 'F5F5F5'">
+    </v-footer>
   </v-app>
 </template>
 
@@ -61,8 +57,15 @@ export default {
 </script>
 
 <style>
-.container {
-  margin-left: auto;
+/* .container {
+  width: 100%;
+  padding: 12px;
   margin-right: auto;
+  margin-left: auto;
 }
+@media (min-width: 924px) {
+  .container {
+    max-width: 924px !important;
+  }
+} */
 </style>

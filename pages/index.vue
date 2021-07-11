@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" md="9" class="pa-0">
+    <v-col cols="12" md="9" class="container pa-0">
       <v-list-item class="mt-8">
         <v-list-item-icon class="mr-2 mr-md-10">
           <v-avatar :size="sizeAvatar">
@@ -133,7 +133,7 @@
           </v-chip>
         </v-slide-item>
       </v-slide-group>
-      <v-lazy transition="scroll-y-reverse-transition">
+      <v-lazy transition="scroll-y-reverse-transition" class="mb-8">
         <v-row :no-gutters="$vuetify.breakpoint.name === 'xs' ? true : false">
           <v-col
             v-for="(picture, i) in showPicture"
@@ -170,15 +170,28 @@
           </v-carousel>
         </v-card>
       </v-dialog>
+      <v-divider
+        v-if="$vuetify.breakpoint.name !== 'xs'"
+        class="mb-8"
+      ></v-divider>
+      <v-expansion-panels v-if="$vuetify.breakpoint.name !== 'xs'" class="mb-8">
+        <v-expansion-panel>
+          <v-expansion-panel-header style="font-size: 18px; font-weight: 500">
+            Raw Data
+          </v-expansion-panel-header>
+          <v-expansion-panel-content
+            style="font-family: 'Roboto'; font-size: 14px"
+          >
+            {{ wisataBook }}
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-col>
   </v-row>
 </template>
 
 <script>
 export default {
-  props: {
-    items: { type: Array, default: () => [] },
-  },
   async asyncData({ store }) {
     return {
       wisataBook: await store.dispatch('getWisataBook'),
@@ -319,5 +332,16 @@ export default {
 <style>
 * {
   font-family: 'Google Sans';
+}
+.container {
+  width: 100%;
+  padding: 12px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 924px) {
+  .container {
+    max-width: 924px !important;
+  }
 }
 </style>
